@@ -11,5 +11,9 @@ namespace ComplanMVC.DataAccessLayer
         public int j;
 
         public string ll;
+        
+        pub class Test1
+        {
+        }
     }
 }
