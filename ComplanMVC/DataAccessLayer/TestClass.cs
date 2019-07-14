@@ -8,6 +8,8 @@ namespace ComplanMVC.DataAccessLayer
     public class TestClass
     {
         public int k;
-        public int j; 
+        public int j;
+
+        public string ll;
     }
 }
