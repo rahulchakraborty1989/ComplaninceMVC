@@ -11,5 +11,7 @@ namespace ComplanMVC.DataAccessLayer
         public int j;
 
         public string ll;
+
+        public bool s;
     }
 }
