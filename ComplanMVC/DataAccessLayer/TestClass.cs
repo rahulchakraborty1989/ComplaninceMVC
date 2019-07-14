@@ -9,5 +9,6 @@ namespace ComplanMVC.DataAccessLayer
     {
         public int k;
         public int j;
+        public int l;
     }
 }
