@@ -1,0 +1,219 @@
+﻿@model ComplanMVC.Models.StateRegis
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script>
+    var app = angular.module('myapp1', []);
+    app.controller('myctrt1', function ($scope, $window, $http) {
+        //----------------------Document.Ready in angular js-------------------------------
+        angular.element(document).ready(function () {
+            Loadgrid();
+        });
+        //----------------------------------------------------------------------------------
+        $index = 1;
+        $scope.countryname = "India"; // set textbox value to India
+        function Loadgrid() {
+            $scope.statelist = [];
+            $http({
+                method: "GET",
+                /***** line 1 and line 2 are same ****/
+                url: "/api/StateRegisAPI/Get/", // line 1
+                //url: "http://localhost:1662/api/StateRegisAPI/Get/",  // line 2
+                data: "{}",
+                datatype: "json",
+                //async: false,
+                cache: false,
+            }).success(function (result) {
+                var jsonData = JSON.stringify(result);
+                var jsonrecord = JSON.parse(jsonData);
+                if (jsonrecord.length > 0) {
+                    $scope.trshow = true;
+                    $scope.statelist = jsonrecord;
+                }
+                else {
+                    $scope.trshow = false;
+                }
+            });
+        }
+        $scope.jssave = function () {
+            if ($scope.statename == null) {
+                $window.alert("Please Enter State Name!");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/api/StateRegisAPI/Post?statename=" + $scope.statename,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                success: function (result) {
+                    if (result == "1") {
+                        alert("Data Saved");
+                        Loadgrid();
+                        $scope.statename = "";
+                    }
+                    else {
+                        alert("Some Error");
+                    }
+                }, error: function (x, e) {
+
+                }
+            });
+
+        }
+        $scope.Jsedit = function (stateid, statename) {
+            $scope.popupcountry = $scope.countryname;
+            $scope.popupstate = statename;
+            $scope.spnstateid = stateid;
+        }
+        $scope.JSupdate = function () {
+            $.ajax({
+                type: "PUT",
+                url: "api/StateRegisAPI/Put?stateid=" + $scope.spnstateid + "&statename=" + $scope.popupstate,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                success: function (result) {
+                    if (result == "1") {
+                        alert("Data Updated");
+                        $('#myModal').modal('toggle');
+                        Loadgrid();
+                        $scope.statename = "";
+                    }
+                    else {
+                        alert("Some Error");
+                    }
+                }, error: function (x, e) {
+
+                }
+            });
+        }
+        $scope.jsdelete = function (stateid) {
+            $.ajax({
+                type: "DELETE",
+                url: "api/StateRegisAPI/Delete?stateid=" + stateid,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                success: function (result) {
+                    if (result == "1") {
+                        alert("Data Deleted");
+                        Loadgrid();
+                    }
+                    else {
+                        alert("Some Error");
+                    }
+                }, error: function (x, e) {
+
+                }
+            });
+        }
+    });
+</script>
+
+<div id="App1" ng-app="myapp1" ng-controller="myctrt1">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">State Registration</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel-body">
+            <div class="row">
+                <table class="table table-bordered" style="width: 800px;">
+                    <tr>
+                        <td>Country Name
+                        </td>
+                        <td>
+                            <input id="txtcountryname" ng-model="countryname" type="text" disabled />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>State Name
+                        </td>
+                        <td>
+                            <input id="txtstatename" ng-model="statename" type="text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="button" ng-model="btnsave" value="Save" ng-click="jssave()" class="btn btn-default" />
+                            &nbsp;
+                        <input type="button" value="View" ng-click="jsshow()" class="btn btn-default" />
+                        </td>
+                    </tr>
+
+                    <tr ng-show="trshow">
+                        <td colspan="2" style="text-align: center;">
+                            <table class="table table-bordered" style="width: 800px;">
+                                <tr style="background-color: #a94442; font-weight: bold; color: white;">
+                                    <td>Sl No</td>
+                                    <td>State Name</td>
+                                    <td>Edit</td>
+                                    <td>Delete</td>
+                                </tr>
+
+                                <tr ng-repeat="dataModel in statelist">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{dataModel.statename}}</td>
+                                    <td>
+                                        <a href="#" ng-click="Jsedit(dataModel.stateid,dataModel.statename)" data-toggle="modal" data-target="#myModal">Edit</a>
+                                        <span style="display:none;" ng-model="spnstateid"></span>
+                                    </td>
+                                    <td>
+                                        <a href="#" ng-click="jsdelete(dataModel.stateid)">Delete</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!------------------------------------ Modal ------------------------------------------>
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Client Registration-Update</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" style="width: 100%;">
+                        <tr>
+                            <td>Country Name
+                            </td>
+                            <td>
+                                <input ng-model="popupcountry" type="text" style="width: 200px;" disabled/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>State Name
+                            </td>
+                            <td>
+                                <input ng-model="popupstate" type="text" style="width: 200px;" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input id="btnsave" class="btn btn-primary" type="button" name="Update" value="Update" ng-click="JSupdate();" />
+                    &nbsp;
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <input type="hidden" name="country" ng-model="hdnclientid">
+</div>

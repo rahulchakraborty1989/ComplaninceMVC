@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBComplianceModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="DBComplianceEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="CityMasters" EntityType="DBComplianceModel.CityMaster" />
+    <EntitySet Name="DepartmentMasters" EntityType="DBComplianceModel.DepartmentMaster" />
+    <EntitySet Name="StateMasters" EntityType="DBComplianceModel.StateMaster" />
+    <EntitySet Name="VendorContactInfoes" EntityType="DBComplianceModel.VendorContactInfo" />
+  </EntityContainer>
+  <EntityType Name="CityMaster">
+    <Key>
+      <PropertyRef Name="CityId" />
+    </Key>
+    <Property Name="CityId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CityName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="StateId" Type="Int32" />
+    <Property Name="Citycode" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="DepartmentMaster">
+    <Key>
+      <PropertyRef Name="DeptId" />
+    </Key>
+    <Property Name="DeptId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="DeptName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="DeptDescription" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Type="String" Name="DeptHead" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="DeptState" />
+    <Property Type="Decimal" Name="DeptHeadSalary" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="StateMaster">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Type="Int32" Name="StateId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+    <Property Type="String" Name="StateName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="CountryId" />
+  </EntityType>
+  <EntityType Name="VendorContactInfo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+    <Property Type="String" Name="VendorContactName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="VendorContactNo" />
+    <Property Type="Int32" Name="StateID" Nullable="false" />
+  </EntityType>
+</Schema>

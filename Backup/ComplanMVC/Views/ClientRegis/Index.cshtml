@@ -1,0 +1,196 @@
+﻿@model ComplanMVC.Models.ClientRegisClass
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+@{
+    if (ViewData["statusforinsert"] != "" && ViewData["statusforinsert"] != null)
+    {
+        if (ViewData["statusforinsert"].ToString() == "1")
+        {
+            ViewData["statusforinsert"] = null;
+    <script type="text/javascript" language="javascript">
+        alert("Data saved Successfully");
+    </script>
+        }
+        else if (ViewData["statusforinsert"].ToString() == "-1")
+        {
+            ViewData["statusforinsert"] = null;
+    <script type="text/javascript" language="javascript">
+        alert("Data already present for this client");
+    </script>
+        }
+    }
+}
+@if (ViewData.ModelState.IsValid)
+{
+    if (@ViewBag.ClientName != null)
+    {
+    <script type="text/javascript" language="javascript">
+        alert("Provide ClientName");
+    </script>
+    }
+}
+<script>
+    var app = angular.module('myapp1', []);
+    app.controller('myctrt1', function ($scope, $window, $http) {
+        $scope.Jsedit = function (ClientId, ClientName, ClientCode, clienttypeid) {
+            //$window.alert(ClientId); $window.alert(ClientName); $window.alert(ClientCode); $window.alert(clienttypeid);
+            $scope.hdnclientid = ClientId;
+            $scope.clientname = ClientName;
+            $scope.clientcode = ClientCode;
+            $('#ddltypes').val(clienttypeid);
+        }
+        //$scope.JSsavevalidation = function () {
+        //    $window.alert('Prevent Validation');
+        //    return false;
+        //}
+    });
+</script>
+
+<div id="App1" ng-app="myapp1" ng-controller="myctrt1">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Client Registration</h1>
+           
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel-body">
+            <div class="row">
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary(true)
+                    <table class="table table-bordered" style="width: 800px;">
+                        <tr>
+                            <td>Client Name
+                            </td>
+                            <td>
+                                @* @Html.TextBoxFor(x => x.ClientName, new { style = "width: 200px;" })*@
+                                @Html.EditorFor(x => x.ClientName, new { style = "width: 200px;" })
+                                @Html.ValidationMessageFor(x => x.ClientName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Client Code
+                            </td>
+                            <td>
+                                @* @Html.TextBoxFor(x => x.ClientCode, new { style = "width: 200px;" })*@
+                                @Html.EditorFor(x => x.ClientCode, new { style = "width: 200px;" })
+                                @Html.ValidationMessageFor(x => x.ClientCode)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Client Type
+                            </td>
+                            <td>
+                                @* @Html.DropDownList("drpclientype", new List<SelectListItem>() 
+                                   {
+                                       new SelectListItem { Text="Payroll", Value = "1",Selected = true}, 
+                                       new SelectListItem { Text="Non Payroll", Value = "0"}
+                                   }, new { @class = "myClass", style = "width: 200px;" })*@
+                                @* @Html.DropDownList("ddltypess", new SelectList(Model.Fields, "typeid", "typename", Model.SelectedFieldId), new { @class = "myClass", style = "width: 200px;" })*@
+
+                                @Html.DropDownListFor(x => x.Fields, Model.Fields.Select(x => new SelectListItem() { Value = x.typeid.ToString(), Text = x.typename }), new { @id = "ddltypess", @class = "myClass", style = "width: 200px;" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;">
+                                <input id="btnsave" class="btn btn-success" type="submit" name="Save" value="Save" />
+                                &nbsp;
+                        <input id="btnview" type="submit" class="btn btn-warning" name="View" value="View" />
+                            </td>
+                        </tr>
+                        @if (ViewBag.ViewClient != null)
+                        {
+                            <tr>
+                                <td colspan="2" style="text-align: center;">
+                                    <table class="table table-bordered" style="width: 800px;">
+                                        <tr style="background-color: #a94442; font-weight: bold; color: white;">
+                                            <td>Sl No</td>
+                                            <td>Client Name</td>
+                                            <td>Client Code</td>
+                                            <td>Client Type</td>
+                                            <td>Edit</td>
+                                            <td>Delete</td>
+                                        </tr>
+                                        @{int i = 1;}
+                                        @foreach (ComplanMVC.Models.ClientRegisClass obt in ViewBag.ViewClient)
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@obt.ClientName</td>
+                                                <td>@obt.ClientCode</td>
+                                                <td>@obt.Clienttype</td>
+                                                <td>
+                                                    <a href="#" ng-click="Jsedit(@obt.ClientId,'@obt.ClientName','@obt.ClientCode','@obt.clienttypeid')" data-toggle="modal" data-target="#myModal">Edit</a>
+                                                </td>
+                                                <td>@Html.ActionLink("Delete", "Delete", new { id = obt.ClientId })</td>
+                                            </tr>
+                                            i++;
+                                        }
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <!------------------------------------ Modal ------------------------------------------>
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Client Registration-Update</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" style="width: 100%;">
+                        <tr>
+                            <td>Client Name
+                            </td>
+                            <td>
+                                <input id="txtclnt" ng-model="clientname" type="text" style="width: 200px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Client Code
+                            </td>
+                            <td>
+                                <input id="txtclnt" ng-model="clientcode" type="text" style="width: 200px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Client Type
+                            </td>
+                            <td>
+                                <select id="ddltypes" style="width: 200px;">
+                                    <option value="1">Payroll</option>
+                                    <option value="0">Non Payroll</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input id="btnsave" class="btn btn-primary" type="button" name="Update" value="Update" onclick="JSupdate();" />
+                    &nbsp;
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <input type="hidden" name="country" ng-model="hdnclientid">
+</div>

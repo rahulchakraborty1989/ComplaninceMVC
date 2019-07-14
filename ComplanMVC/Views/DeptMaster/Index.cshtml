@@ -1,0 +1,229 @@
+﻿@model ComplanMVC.EntityFrameworkModelClass.DepartmentMaster
+@*@model ComplanMVC.EntityFrameworkModelClass.StateMaster*@
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+
+
+@{
+    if (ViewBag.savemsg == "1")
+    {
+    <script type="text/javascript" language="javascript">
+        alert("Data saved Successfully");
+    </script>
+    }
+    else if (ViewBag.savemsg == "0")
+    {
+    <script type="text/javascript" language="javascript">
+        alert("Duplicate Data");
+    </script>
+    }
+    else if (ViewBag.savemsg == "2")
+    {
+    <script type="text/javascript" language="javascript">
+        alert("Data updated Successfully");
+    </script>
+    }
+    else if (ViewBag.savemsg == "3")
+    {
+    <script type="text/javascript" language="javascript">
+        alert("Data deleted Successfully");
+    </script>
+    }
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ddlstate').change(function () {
+            $("#DeptState").val($('#ddlstate').val());
+        });
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+
+    function validatepwd() {
+        if ($("#DeptId").val() == "") {// Insert
+            $("#DeptId").val(0);
+        }
+        else {// Up[date
+            $("#DeptState").val($('#ddlstate').val());
+        }
+        var DeptName = $("#DeptName").val().trim();
+        if (DeptName == "") {
+            alert("Please enter DeptName");
+            return false;
+        }
+        var DeptDescription = $("#DeptDescription").val().trim();
+        if (DeptDescription == "") {
+            alert("Please enter DeptDescription");
+            return false;
+        }
+        var DeptHead = $("#DeptHead").val().trim();
+        if (DeptHead == "") {
+            alert("Please enter DeptHead");
+            return false;
+        }
+        var ddlstate = $("#ddlstate").val().trim();
+        if (ddlstate == "-1") {
+            alert("Please select State");
+            return false;
+        }
+
+    }
+    function DeleteConfirm(DeptName) {
+        if (confirm("Are you want to delete " + DeptName + "?"))
+            return true;
+        else
+            return false;
+    }
+    function JSviewbyid() {
+        if ($("#ddlstate").val() == "-1") {
+            alert("Please choose state");
+            return false;
+        }
+        $("#DeptState").val($('#ddlstate').val());
+    }
+    function JSEdit(deptid, DeptName, DeptDescription, DeptHead, DeptHeadSalary, StateId) {
+        $("#DeptId").val(deptid);
+        $("#DeptName").val(DeptName);
+        $("#DeptDescription").val(DeptDescription);
+        $("#DeptHead").val(DeptHead);
+        $("#DeptHeadSalary").val(DeptHeadSalary);
+        $("#ddlstate").val(StateId);
+
+        $('#btnsave').hide();
+        $('#btnupdate').show();
+        return false;
+    }
+    function JSStateDetails(StateId) {
+        $.ajax({
+            type: "GET",
+            url: "/DeptMaster/StateDetails",
+            contentType: "application/json; charset=utf-8",
+            data: { "StateId": StateId },
+            datatype: "json",
+            success: function (data) {
+                $('#myModalContent').html(data);
+                $('#myModal').modal('show');
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+    }
+    function JSdownload() {
+        var Name = "StateDetails";
+        var blob = new Blob([document.getElementById('myModalContent').innerHTML], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+        });
+        saveAs(blob, Name + '.xls');
+    }
+</script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Department Registration</h1>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel-body">
+        <div class="row">
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true)
+
+                <table class="table table-bordered" style="width: 800px;">
+                    <tr>
+                        <td>Department Name
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model.DeptName, new { style = "width: 200px;" })
+                            @Html.ValidationMessageFor(x => x.DeptName)
+
+                            @Html.HiddenFor(m => m.DeptId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Department Description
+                        </td>
+                        <td>
+                            @Html.EditorFor(x => x.DeptDescription, new { style = "width: 200px;" })
+                            @Html.ValidationMessageFor(x => x.DeptDescription)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Department Head
+                        </td>
+                        <td>
+                            @Html.EditorFor(x => x.DeptHead, new { style = "width: 200px;" })
+                            @Html.ValidationMessageFor(x => x.DeptHead)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Department Head Salary
+                        </td>
+                        <td>
+                            @Html.EditorFor(x => x.DeptHeadSalary, new { style = "width: 200px;" })
+                            @Html.ValidationMessageFor(x => x.DeptHeadSalary)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Department State
+                        </td>
+                        <td>
+                            @Html.DropDownList("State", ViewBag.Statelists as List<SelectListItem>, new { @id = "ddlstate", @class = "myClass1", style = "width: 200px;" })
+
+                            @Html.HiddenFor(m => m.DeptState)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input id="btnsave" class="btn btn-success" type="submit" name="Save" value="Save" onclick="return validatepwd();" />
+                            <input id="btnupdate" class="btn btn-success" type="submit" name="Update" value="Update" style="display: none;" onclick="return validatepwd();" />
+                            &nbsp;
+                 <input id="btnview" type="submit" class="btn btn-warning" name="Viewshow" value="View" onclick="return JSviewbyid();" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @Html.Partial("~/Views/DeptMaster/DeptMasterPartialView.cshtml")
+                        </td>
+
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">State Details</h4>
+            </div>
+            <div class="modal-body">
+                <div id='myModalContent'></div>
+            </div>
+            <div class="modal-footer">
+                <img id="imgdwn" class="newShowHide" onclick="JSdownload();" style="" src="~/Images/download.png"> &nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

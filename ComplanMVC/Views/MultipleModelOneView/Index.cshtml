@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">@ViewBag.Message</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="panel-body">
+        @{
+            @*@Html.Partial("~/Views/MultipleModelOneView/RenderTeacherPartial.cshtml")
+                @Html.Partial("~/Views/MultipleModelOneView/RenderStudentPartial.cshtml")*@
+
+            Html.RenderAction("RenderTeacherPartial");
+            Html.RenderAction("RenderStudentPartial");
+            Html.RenderAction("RenderCollegePartial");
+        }
+    </div>
+</div>

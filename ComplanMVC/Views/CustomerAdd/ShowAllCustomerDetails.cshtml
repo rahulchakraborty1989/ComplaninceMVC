@@ -1,0 +1,50 @@
+﻿@using ComplanMVC;
+
+@{
+    ViewBag.Title = "ShowAllCustomerDetails";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+@{
+    IEnumerable<ComplanMVC.Models.Customer> teachers = ViewData["CustomerDisplay"] as IEnumerable<ComplanMVC.Models.Customer>;
+}
+<div>
+    <div>
+         @Html.ActionLink("Create New", "InsertCustomer")
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Customer Details</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel-body">
+            <div class="row">
+                <table class="table table-bordered" style="width: 1000px;">
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Mobileno</th>
+                        <th>Birthdate</th>
+                        <th>EmailID</th>
+                        <th>Actions</th>
+                    </tr>
+                     @foreach (ComplanMVC.Models.Customer obt in teachers)
+                        {
+                            <tr>
+                                <td>@obt.Name</td>
+                                <td>@obt.Address</td>
+                                <td>@obt.Mobileno</td>
+                                <td>@obt.Birthdate</td>
+                                <td>@obt.EmailID</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "EditData", new { id=@obt.CustomerID }) |
+                                    @Html.ActionLink("Details", "Details", new { id=@obt.CustomerID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id=@obt.CustomerID })
+                                </td>
+                            </tr>
+                        }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

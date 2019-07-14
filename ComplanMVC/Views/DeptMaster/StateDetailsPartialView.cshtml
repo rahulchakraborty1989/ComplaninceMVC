@@ -1,0 +1,18 @@
+﻿@model ComplanMVC.EntityFrameworkModelClass.CityMaster
+
+<table class="table table-bordered" style="width: 300px;" border="1">
+    <tr style="background-color:#ffcccc; font-weight: bold; color: black;">
+        <th>Sl No
+        </th>
+        <th>City name</th>
+    </tr>
+     @{ int slno = 0;}
+
+    @foreach (var item in (IEnumerable<ComplanMVC.EntityFrameworkModelClass.CityMaster>)ViewBag.StateDetails)
+    {
+        <tr>
+            <td>@(slno = slno + 1)</td>
+            <td>@Html.DisplayFor(modelItem => item.CityName)</td>
+        </tr>
+    }
+</table>

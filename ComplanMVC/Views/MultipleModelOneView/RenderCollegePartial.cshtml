@@ -1,0 +1,18 @@
+﻿@using ComplanMVC.Models;
+@model IEnumerable<ComplanMVC.Models.College>
+
+<table class="table table-bordered" style="width: 800px;">
+    <tr style="background-color: #a94442; font-weight: bold; color: white;">
+        <th>Id</th>
+        <th>Name</th>
+        <th>Address</th>
+    </tr>
+    @foreach (College S in Model)
+    {
+        <tr>
+            <td>@S.CId</td>
+            <td>@S.College_Name</td>
+            <td>@S.College_Address</td>           
+        </tr>
+    }
+</table>

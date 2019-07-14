@@ -1,0 +1,56 @@
+﻿@model ComplanMVC.Models.CommonViewClass
+
+@if (ViewBag.Citys != null)
+{
+    if (ViewBag.Citys != null && ViewBag.Citys.Count > 0)
+    { 
+    <table class="table table-bordered" style="width: 800px;">
+        <tr style="background-color: #a94442; font-weight: bold; color: white;">
+            <th>Sl No
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateName)
+            </th>
+        </tr>
+        @{ 
+        int a = 0;
+        }
+        @foreach (var item in (IEnumerable<ComplanMVC.Models.CommonViewClass>)ViewBag.Citys)
+        {
+            <tr>
+                <td>
+                    @(a = a + 1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StateName)
+                </td>
+            </tr>  
+        }
+    </table>
+    }
+    else
+    {
+    <table class="table table-bordered" style="width: 800px;">
+        <tr style="font-weight: bold; color: blue; text-align: center;">
+            <td>Sorry No records found
+            </td>
+        </tr>
+    </table>
+    }
+}
+else
+{
+    <table class="table table-bordered" style="width: 800px;">
+        <tr style="font-weight: bold; color: blue;">
+            <td>Sorry No records found
+            </td>
+        </tr>
+    </table>
+   
+}

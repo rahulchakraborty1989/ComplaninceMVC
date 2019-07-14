@@ -1,0 +1,98 @@
+﻿
+@* Declare model into VIEW*@
+@model ComplanMVC.Models.Customer  
+
+@{
+    ViewBag.Title = "InsertCustomer";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+ @{
+     if (ViewData["InsertResult"] != "" && ViewData["InsertResult"] != null)
+        {
+            if (ViewData["InsertResult"].ToString() == "Insert")
+            {
+                ViewData["InsertResult"] = null;
+                <script type="text/javascript" language="javascript">
+                    alert("Data saved Successfully");
+                </script>
+            }
+        }
+ }
+
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">InsertCustomer</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel-body">
+            <div class="row">
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary(true)
+
+                    <table class="table table-bordered" style="width: 800px;">
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Name)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Name)
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Address)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Address)
+                                @Html.ValidationMessageFor(model => model.Address)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Mobileno)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Mobileno)
+                                @Html.ValidationMessageFor(model => model.Mobileno)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Birthdate)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Birthdate)
+                                @Html.ValidationMessageFor(model => model.Birthdate)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.EmailID)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.EmailID)
+                                @Html.ValidationMessageFor(model => model.EmailID)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Create" class="btn btn-success" />
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "ShowAllCustomerDetails")
+    <br />
+    @Html.ActionLink("Go to CLient Registration","Index", "ClientRegis")
+</div>
+

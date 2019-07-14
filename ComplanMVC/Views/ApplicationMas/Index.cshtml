@@ -1,0 +1,80 @@
+﻿@model ComplanMVC.Models.Application
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Insert Application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel-body">
+            <div class="row">
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary(true)
+                    <table class="table table-bordered" style="width: 800px;">
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Name)
+                            </td>
+                            <td>
+                                @*@Html.TextBoxFor(model => model.Name, new { value = Convert.ToString(TempData["Name"]) })*@
+                                @Html.TextBox("Name", @TempData["Name"])
+                                
+                                @*@Html.ValidationMessageFor(model => model.Name)*@
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Address)
+                            </td>
+                            <td>
+                                @Html.TextBox("Address", @TempData["Address"])
+                                @Html.ValidationMessageFor(model => model.Address)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Mobileno)
+                            </td>
+                            <td>
+                                @Html.TextBox("Mobileno", @TempData["Mobileno"])
+                                @Html.ValidationMessageFor(model => model.Mobileno)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Birthdate)
+                            </td>
+                            <td>
+                                @*@Html.EditorFor(model => model.Birthdate)*@
+                                @Html.TextBox("Birthdate", @TempData["Birthdate"])
+                                @Html.ValidationMessageFor(model => model.Birthdate)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.EmailID)
+                            </td>
+                            <td>
+                                @Html.TextBox("EmailID", @TempData["EmailID"])
+                                @Html.ValidationMessageFor(model => model.EmailID)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                @*@Html.ActionLink("Next", "Index1")*@
+                                <input type="submit" value="Next" class="btn btn-success" />
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>

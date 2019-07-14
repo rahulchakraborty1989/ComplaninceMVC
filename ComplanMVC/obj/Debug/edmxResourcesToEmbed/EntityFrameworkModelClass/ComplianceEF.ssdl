@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBComplianceModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="DBComplianceModelStoreContainer">
+    <EntitySet Name="CityMaster" EntityType="DBComplianceModel.Store.CityMaster" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="DepartmentMaster" EntityType="DBComplianceModel.Store.DepartmentMaster" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="StateMaster" EntityType="DBComplianceModel.Store.StateMaster" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="VendorContactInfo" EntityType="DBComplianceModel.Store.VendorContactInfo" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+  </EntityContainer>
+  <EntityType Name="CityMaster">
+    <Key>
+      <PropertyRef Name="CityId" />
+    </Key>
+    <Property Name="CityId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CityName" Type="varchar" MaxLength="50" />
+    <Property Name="StateId" Type="int" />
+    <Property Name="Citycode" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DepartmentMaster">
+    <Key>
+      <PropertyRef Name="DeptId" />
+    </Key>
+    <Property Name="DeptId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="DeptName" Type="varchar" MaxLength="50" />
+    <Property Name="DeptDescription" Type="varchar" MaxLength="50" />
+    <Property Name="DeptHead" Type="varchar" MaxLength="50" />
+    <Property Name="DeptState" Type="int" />
+    <Property Name="DeptHeadSalary" Type="decimal" Scale="2" />
+  </EntityType>
+  <EntityType Name="StateMaster">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="StateName" Type="varchar" MaxLength="50" />
+    <Property Name="CountryId" Type="int" />
+  </EntityType>
+  <EntityType Name="VendorContactInfo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="VendorContactName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="VendorContactNo" Type="int" />
+    <Property Name="StateID" Type="int" Nullable="false" />
+  </EntityType>
+</Schema>

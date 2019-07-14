@@ -1,0 +1,96 @@
+﻿@model ComplanMVC.Models.Customer
+
+@{
+    ViewBag.Title = "Edit";
+    //Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+ @{
+     if (ViewData["UpdateResult"] != "" && ViewData["UpdateResult"] != null)
+        {
+            if (ViewData["UpdateResult"].ToString() == "Update")
+            {
+                ViewData["UpdateResult"] = null;
+                <script type="text/javascript" language="javascript">
+                    alert("Data updated Successfully");
+                    var url = "/CustomerAdd/ShowAllCustomerDetails";
+                    window.location.href = url;
+                </script>
+            }
+        }
+ }
+
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Update Customer</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel-body">
+            <div class="row">
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.CustomerID)
+                    <table class="table table-bordered" style="width: 800px;">
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Name)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Name)
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Address)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Address)
+                                @Html.ValidationMessageFor(model => model.Address)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Mobileno)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Mobileno)
+                                @Html.ValidationMessageFor(model => model.Mobileno)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.Birthdate)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Birthdate)
+                                @Html.ValidationMessageFor(model => model.Birthdate)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.EmailID)
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.EmailID)
+                                @Html.ValidationMessageFor(model => model.EmailID)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Update" class="btn btn-success" />
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "ShowAllCustomerDetails")
+</div>

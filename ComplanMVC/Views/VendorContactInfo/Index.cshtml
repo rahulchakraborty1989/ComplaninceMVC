@@ -1,0 +1,115 @@
+﻿@model ComplanMVC.EntityFrameworkModelClass.VendorContactInfo
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ddlstate').change(function () {
+            $("#StateID").val($('#ddlstate').val());
+        });
+        $("#VendorContactNo").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+        $('#chkAll').on('click', function () {
+            if (this.checked) {
+                $('.checkbox').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.checkbox').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+    });
+
+    function validatepwd() {
+        var VendorContactName = $("#VendorContactName").val().trim();
+        if (VendorContactName == "") {
+            alert("Please enter VendorContactName");
+            return false;
+        }
+        var VendorContactNo = $("#VendorContactNo").val().trim();
+        if (VendorContactNo == "") {
+            alert("Please enter VendorContactNo");
+            return false;
+        }
+        var ddlstate = $("#ddlstate").val().trim();
+        if (ddlstate == "-1") {
+            alert("Please select State");
+            return false;
+        }
+        $("#StateID").val($('#ddlstate').val());
+    }
+
+    function DeleteConfirm(VendorName) {
+        if (confirm("Are you want to delete " + VendorName + "?"))
+            return true;
+        else
+            return false;
+    }
+</script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Vendor Contact Info. Registration</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            <table id="dataTable" class="table table-bordered" style="width: 800px;">
+                <tr>
+                    <th>Vendor Contact Name</th>
+                    <th>Vendor Contact No.</th>
+                    <th>State</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.EditorFor(model => model.VendorContactName, new { style = "width: 200px;" })
+                        @Html.ValidationMessageFor(x => x.VendorContactName)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.VendorContactNo, new { style = "width: 150px;", maxlength = 8 })
+                        @Html.ValidationMessageFor(x => x.VendorContactNo)
+
+                        &nbsp;<span id="errmsg"></span>
+                    </td>
+                    <td>
+                        @Html.DropDownList("Statelists", ViewBag.Statelists as List<SelectListItem>, new { @id = "ddlstate", @class = "myClass1", style = "width: 200px;" })
+                        @Html.HiddenFor(m => m.StateID)
+                    </td>
+                    <td>
+                        <input id="btnsave" class="btn btn-success" type="submit" name="Save" value="Save" onclick="return validatepwd();" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        @Html.Partial("~/Views/VendorContactInfo/VendorContractPartial.cshtml")
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="btnbulksavee" class="btn btn-success" type="submit" name="BulkSave" value="BulkSave" />
+                    </td>
+                </tr>
+            </table>
+            
+            
+        }
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/CompMaster.cshtml";
+}
+@{
+    if (ViewBag.Message != "" && ViewBag.Message != null)
+    {
+        if (ViewBag.Message == "File uploaded successfully")
+        {
+            ViewBag.Message = null;
+    <script type="text/javascript" language="javascript">
+        alert("File uploaded successfully");
+    </script>
+        }
+    }
+}
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">File Upload</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel-body">
+            <div class="row">
+                @using (Html.BeginForm("Index", "Fileupload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                   
+                    <table class="table table-bordered" style="width: 500px;">
+                        <tr>
+                            <td width="200px;">
+                                <input type="file" id="fileToUpload" name="file" />
+                                <span class="field-validation-error" id="spanfile"></span>
+                            </td>
+                            <td>
+                                <input type="submit" id="btnSubmit" value="Upload" class="btn btn-success" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <span style="color: red">@Html.ValidationSummary()</span>
+                    <h3 style="color: green">@ViewBag.Message</h3>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+﻿@model ComplanMVC.Models.CommonViewClass
+
+@if (ViewBag.Vendordisplay != null)
+{
+    if (ViewBag.Vendordisplay != null && ViewBag.Vendordisplay.Count > 0)
+    {
+    <table class="table table-bordered" style="width: 800px;">
+        <tr style="background-color: #a94442; font-weight: bold; color: white;">
+            <th>
+                <input type="checkbox" name="chkAll" value="All" id="chkAll" />
+            </th>
+            <th>Sl No
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VendorContactName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VendorContactNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateName)
+            </th>
+            <th>Action  
+            </th>
+        </tr>
+
+        @{ 
+        int a = 0;
+        }
+        
+        @foreach (var item in (IEnumerable<ComplanMVC.Models.CommonViewClass>)ViewBag.Vendordisplay)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" value="@item.VendorId" class="checkbox" name="chkvendors"/></td>
+                <td>
+                    @(a = a + 1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorContactNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StateName)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.VendorId }, new { onclick = "return DeleteConfirm('" + item.VendorContactName + "');" })
+                </td>
+            </tr>  
+        }
+
+    </table>
+    }
+}

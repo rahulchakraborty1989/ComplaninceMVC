@@ -1,0 +1,39 @@
+﻿@model ComplanMVC.EntityFrameworkModelClass.CityMaster
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>CityMaster</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CityId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CityId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CityName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CityName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StateId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StateId)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
