@@ -13,5 +13,11 @@ namespace ComplanMVC.DataAccessLayer
         public string ll;
 
         public bool s14; 
+
+        
+        public class Test1
+        {
+        }
+
     }
 }
