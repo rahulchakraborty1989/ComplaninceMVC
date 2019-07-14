@@ -18,6 +18,10 @@ namespace ComplanMVC.DataAccessLayer
         public class Test1
         {
         }
+        
+        public class Test2
+        {
+        }
 
     }
 }
